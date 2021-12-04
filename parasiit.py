@@ -1,4 +1,4 @@
-
+import os
 import pygame
 
 class Player(pygame.sprite.Sprite):
@@ -115,6 +115,10 @@ enemy_group = pygame.sprite.Group()
 enemy_timer = pygame.USEREVENT + 0
 pygame.time.set_timer(enemy_timer,1000)#kui tihti enemy spawnib
 
+#ingame taust
+#background = pygame.image.load(os.path.join("xxxx.png")).convert()
+#bg_x_pos = 0
+
 #menu teeb hiljem
 
 running = True 
@@ -123,14 +127,18 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-#         Kui enemy_timeri aeg on käes, siis valib randomilt vaenlase
+#         ////Kui enemy_timeri aeg on käes, siis valib randomilt vaenlase
 #         if event.type == enemy_timer:
-#             enemy_group.add(Enemy(choice(['xxx','xx']))) siia tulevad vaenlase nimed vms
-#         ja siis tuleb joonistada need ekraanile ka.
+#             enemy_group.add(Enemy(choice(['xxx','xx']))) /////siia tulevad vaenlase nimed vms
 #         enemy_group.draw(screen)
 #         enemy_group.update()
-        
-    #screen.fill((255,0,0))
+
+#     ////tausta liikumine
+#     bg_x_muut = bg_x_pos % background.get_rect().width
+#     screen.blit(background,(bg_x_muut - background.get_rect().width, 0))
+#     if bg_x_muut < width:
+#         screen.blit(background, (bg_x_muut, 0))
+#     bg_x_pos -= 1
 
     pygame.display.flip()
 

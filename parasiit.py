@@ -14,7 +14,19 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
-        
+    
+    #nupuvajutamisele reageerimine ehk üles alla asi
+    def player_input(self):
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_UP] and self.rect.top >= 0:
+            self.rect.y -= 10 #kui mitu px ta korraga üles liigub
+            if self.rect.top >= 0:#et ekraanilt välja ei läheks
+                self.rect.top = 0
+        if keys[pygame.K_DOWN] and self.rect.bottom <= 600:
+            self.rect.y += 10
+            if self.rect.bottom <= 600:
+                self.rect.bottom = 600
+            
     def draw(self, screen):
         screen.blit(self.image, self.rect)
 
@@ -78,7 +90,7 @@ class Enemy(pygame.sprite.Sprite):
     
     def destroy(self):
         if self.rect.x <= -100:#see nr näitab mitu px ta ekraanilt väljas
-            self.kill()#HÄVITAB ENNAST, KUI EKRAANILT VÄLJAS
+            self.kill()#HÄVITAB ENNAST, KUI EKRAANILT VÄLJAS, muidu kui liiga palju siis jookseb mäng kokku
 
 #fn, et kui mäng läbi, siis enemy_group tehakse tühjaks, muidu spawniks uues mängus keset ekraani midagi
 #fn, kui mängija puudutab vaenlast, siis elu kaob ja fn sees peaks kontrollima kas elusid on piisavalt, et mäng edasi läheks

@@ -59,6 +59,7 @@ class Anim(pygame.sprite.Sprite):
             self.index = 0
         self.image = self.images[self.index]
 
+
 class Enemy(pygame.sprite.Sprite):
     def __init__(self,type):
         super().__init__()
@@ -115,9 +116,14 @@ enemy_group = pygame.sprite.Group()
 enemy_timer = pygame.USEREVENT + 0
 pygame.time.set_timer(enemy_timer,1000)#kui tihti enemy spawnib
 
-#ingame taust
-#background = pygame.image.load(os.path.join("xxxx.png")).convert()
-#bg_x_pos = 0
+#taust
+background = pygame.image.load(os.path.join("aluminetaust.png")).convert()
+bg_x_pos = 0
+background_2 = pygame.image.load(os.path.join("taust.png")).convert()
+
+#verelibled
+verelibled_pilt = pygame.image.load(os.path.join("verelible.png"))
+verelibled = [pygame.Rect(300,250,46,43)]
 
 #menu teeb hiljem
 
@@ -132,14 +138,20 @@ while running:
 #             enemy_group.add(Enemy(choice(['xxx','xx']))) /////siia tulevad vaenlase nimed vms
 #         enemy_group.draw(screen)
 #         enemy_group.update()
-
-#     ////tausta liikumine
-#     bg_x_muut = bg_x_pos % background.get_rect().width
-#     screen.blit(background,(bg_x_muut - background.get_rect().width, 0))
-#     if bg_x_muut < width:
-#         screen.blit(background, (bg_x_muut, 0))
-#     bg_x_pos -= 1
-
+    
+    
+    #taust
+    screen.blit(background_2,(0,0))
+    bg_x_muut = bg_x_pos % background.get_rect().width
+    screen.blit(background,(bg_x_muut - background.get_rect().width, 461))
+    if bg_x_muut < width:
+        screen.blit(background, (bg_x_muut, 461))
+    bg_x_pos -= 0.3
+    
+    #verelibled
+    for verelible in verelibled:
+        screen.blit(verelibled_pilt,(verelible[0],verelible[1]))
+    
     pygame.display.flip()
 
 pygame.quit()

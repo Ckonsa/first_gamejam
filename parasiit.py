@@ -7,59 +7,36 @@ class Player(pygame.sprite.Sprite):
         self.images = []
         frameNum = 1
         for i in range(1, frameCount + 1):
-            self.images.append(pygame.image.load('sprites\{name}\{name} ({x}).png'.format(x = frameNum, name = spriteName)))
+            self.images.append(pygame.image.load('{name}\{name} ({x}).png'.format(x = frameNum, name = spriteName)))
             frameNum += 1
         self.index = 0 
         self.image = self.images[self.index]
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
+
+    def animation_state(self):
+        self.index += 0.005#seda nrit saab mudida, et animation ilusam ja sujuvam oleks
+        if self.index >= len(self.images):#KUI animation_index on suurem kui piltide arv listis, siis alustab uuesti esimesest pildist listist
+            self.index = 0
+        self.image = self.images[int(self.index)]
     
     #nupuvajutamisele reageerimine ehk üles alla asi
-    def player_input(self):
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_UP] and self.rect.top >= 0:
-            self.rect.y -= 10 #kui mitu px ta korraga üles liigub
-            if self.rect.top >= 0:#et ekraanilt välja ei läheks
-                self.rect.top = 0
-        if keys[pygame.K_DOWN] and self.rect.bottom <= 600:
-            self.rect.y += 10
-            if self.rect.bottom <= 600:
-                self.rect.bottom = 600
-            
+    def player_input(self, event):
+        speed = 2
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_DOWN and self.rect.y <= 500:
+                self.rect.y += speed
+            if event.key == pygame.K_UP and self.rect.y >= -30:
+                self.rect.y -= speed
+   
     def draw(self, screen):
         screen.blit(self.image, self.rect)
 
     def update(self):
-        self.index += 1
-        if self.index >= len(self.images):
-            self.index = 0
-        self.image = self.images[self.index]        
-
-class Anim(pygame.sprite.Sprite):
-    def __init__(self, x, y, frameCount, spriteName):
-        super(Anim, self).__init__()
-        self.images = []
-        frameNum = 1
-        for i in range(1, frameCount + 1):
-            self.images.append(pygame.image.load('sprites\{name}\{name} ({x}).png'.format(x = frameNum, name = spriteName)))
-            frameNum += 1
-        self.index = 0
-        self.image = self.images[self.index]
-        self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
-                
-    def draw(self, screen): 
-        screen.blit(self.image, self.rect)
-    
-    def update(self):
-        self.index += 1
-        if self.index >= len(self.images):
-            self.index = 0
-        self.image = self.images[self.index]
-
-
+        self.animation_state()
+           
+ 
 class Enemy(pygame.sprite.Sprite):
     def __init__(self,type):
         super().__init__()
@@ -111,6 +88,8 @@ score = 0
 lives = 3
 #jne
 
+ussike = Player(100, 100, 4, 'ussike')
+
 #vaenlane
 enemy_group = pygame.sprite.Group()
 enemy_timer = pygame.USEREVENT + 0
@@ -138,9 +117,9 @@ while running:
 #             enemy_group.add(Enemy(choice(['xxx','xx']))) /////siia tulevad vaenlase nimed vms
 #         enemy_group.draw(screen)
 #         enemy_group.update()
-    
-    
-    #taust
+
+    ussike.player_input(event)
+
     screen.blit(background_2,(0,0))
     bg_x_muut = bg_x_pos % background.get_rect().width
     screen.blit(background,(bg_x_muut - background.get_rect().width, 461))
@@ -148,10 +127,14 @@ while running:
         screen.blit(background, (bg_x_muut, 461))
     bg_x_pos -= 0.3
     
+        
+    ussike.update()
+    ussike.draw(screen)
+
     #verelibled
     for verelible in verelibled:
         screen.blit(verelibled_pilt,(verelible[0],verelible[1]))
-    
+
     pygame.display.flip()
 
 pygame.quit()

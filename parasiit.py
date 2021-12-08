@@ -26,7 +26,7 @@ class Player(pygame.sprite.Sprite):
     def player_input(self):
         keys = pygame.key.get_pressed()
         speed = 1
-        if keys[pygame.K_DOWN] and self.rect.bottom <= 530:
+        if keys[pygame.K_DOWN] and self.rect.bottom <= 480:
             self.rect.y += speed
         if keys[pygame.K_UP] and self.rect.y >= -30:
             self.rect.y -= speed
@@ -114,15 +114,17 @@ width = 1000
 height = 600
 screen = pygame.display.set_mode((width,height))
 pygame.display.set_caption('PARASIIT')
+txt = pygame.font.SysFont('leelawadeeui', 25, bold=True)
+
+clock = pygame.time.Clock()
 
 #mangija algatribuudid
 score = 0
 lives = 3
 #jne
 
-
 ussike = pygame.sprite.GroupSingle()
-ussike.add(Player(100, 100, 4, 'ussike'))
+ussike.add(Player(160, 100, 4, 'ussike'))
 #vaenlane
 enemy_group = pygame.sprite.Group()
 enemy_timer = pygame.USEREVENT + 0
@@ -132,6 +134,7 @@ pygame.time.set_timer(enemy_timer,1000)#kui tihti enemy spawnib
 background = pygame.image.load(os.path.join("aluminetaust.png")).convert()
 bg_x_pos = 0
 background_2 = pygame.image.load(os.path.join("taust.png")).convert()
+heart = pygame.image.load('heart.png')
 
 #verelibled
 verelible_group = pygame.sprite.Group()
@@ -155,6 +158,7 @@ while running:
 #         enemy_group.draw(screen)
 #         enemy_group.update()
 
+    start_time = pygame.time.get_ticks()
 
     screen.blit(background_2,(0,0))
     bg_x_muut = bg_x_pos % background.get_rect().width
@@ -165,7 +169,17 @@ while running:
     
     if pygame.sprite.spritecollide(ussike.sprite,verelible_group, True):
         score += 100
-        print(score)
+
+    score += start_time*0.000001
+    score_txt = str(int(score))
+
+    while len(score_txt) != 11:
+        score_txt = '0' + score_txt
+
+    for i in range(lives):
+        screen.blit(heart, (8 + i*50, 30))
+
+    screen.blit(txt.render(score_txt, True, (0,0,0)),(5,0))
     
     ussike.draw(screen)
     ussike.update()

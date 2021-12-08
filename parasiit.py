@@ -1,5 +1,6 @@
 import os
 import pygame
+from random import randint,choice
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, x, y, frameCount, spriteName): 
@@ -22,19 +23,20 @@ class Player(pygame.sprite.Sprite):
         self.image = self.images[int(self.index)]
     
     #nupuvajutamisele reageerimine ehk üles alla asi
-    def player_input(self, event):
-        speed = 2
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_DOWN and self.rect.y <= 500:
-                self.rect.y += speed
-            if event.key == pygame.K_UP and self.rect.y >= -30:
-                self.rect.y -= speed
+    def player_input(self):
+        keys = pygame.key.get_pressed()
+        speed = 1
+        if keys[pygame.K_DOWN] and self.rect.bottom <= 530:
+            self.rect.y += speed
+        if keys[pygame.K_UP] and self.rect.y >= -30:
+            self.rect.y -= speed
    
     def draw(self, screen):
         screen.blit(self.image, self.rect)
 
     def update(self):
         self.animation_state()
+        self.player_input()
            
  
 class Enemy(pygame.sprite.Sprite):
@@ -73,6 +75,36 @@ class Enemy(pygame.sprite.Sprite):
 #fn, et kui mäng läbi, siis enemy_group tehakse tühjaks, muidu spawniks uues mängus keset ekraani midagi
 #fn, kui mängija puudutab vaenlast, siis elu kaob ja fn sees peaks kontrollima kas elusid on piisavalt, et mäng edasi läheks
 
+class Verelible(pygame.sprite.Sprite):
+    def __init__(self,type):
+        super().__init__()
+        if type=="verelible":
+            verelible_frame1 = pygame.image.load(os.path.join("verelible.png")).convert_alpha()
+            verelible_frame2 = pygame.image.load(os.path.join("verelible.png")).convert_alpha()
+            self.frames = [verelible_frame1,verelible_frame2]
+        
+        self.animation_index = 0
+        self.image = self.frames[self.animation_index]#VÕTAB ESIALGSEKS PILDIKS ESIMESE PILDI LISTIST
+        self.rect = self.image.get_rect(midbottom=(randint(1100,1400),randint(100,450)))#KUHU ENEMY SPAWNIB esimene on x ja teine y koordinaat
+        #need koorinaadid tuleks panna suuremad, kui ekraanisuurus, sest enemy spawnib kaugemal ja liigub sealt ekraanile, mitte ei popupi järsku ekraanil
+    
+    def animation_state(self):
+        self.animation_index += 0.1#seda nrit saab mudida, et animation ilusam ja sujuvam oleks
+        if self.animation_index >= len(self.frames):#KUI animation_index on suurem kui piltide arv listis, siis alustab uuesti esimesest pildist listist
+            self.animation_index = 0
+        self.image = self.frames[int(self.animation_index)]
+    
+    def update(self):
+        self.animation_state()
+        self.rect.x -= 0.3#KUI KIIRESTI ENEMY LIIGUB EKRAANIL
+        self.destroy()#KONTROLLIB, KAS VAJA HÄVITADA ENNAST
+    
+    def destroy(self):
+        if self.rect.left == 0:#see nr näitab mitu px ta ekraanilt väljas
+            self.kill()#HÄVITAB ENNAST, KUI EKRAANILT VÄLJAS, muidu kui liiga palju siis jookseb mäng kokku
+
+
+
 #//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////^KLASSID/^FUNKTSIOONID
 
 pygame.init()
@@ -88,8 +120,9 @@ score = 0
 lives = 3
 #jne
 
-ussike = Player(100, 100, 4, 'ussike')
 
+ussike = pygame.sprite.GroupSingle()
+ussike.add(Player(100, 100, 4, 'ussike'))
 #vaenlane
 enemy_group = pygame.sprite.Group()
 enemy_timer = pygame.USEREVENT + 0
@@ -101,24 +134,27 @@ bg_x_pos = 0
 background_2 = pygame.image.load(os.path.join("taust.png")).convert()
 
 #verelibled
-verelibled_pilt = pygame.image.load(os.path.join("verelible.png"))
-verelibled = [pygame.Rect(300,250,46,43)]
+verelible_group = pygame.sprite.Group()
+verelible_timer = pygame.USEREVENT + 1
+pygame.time.set_timer(verelible_timer,1400)
 
 #menu teeb hiljem
 
 running = True 
-
+clock = pygame.time.Clock()
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        if event.type == verelible_timer:
+            verelible_group.add(Verelible('verelible'))
+            verelible_group.add(Verelible('verelible'))
 #         ////Kui enemy_timeri aeg on käes, siis valib randomilt vaenlase
 #         if event.type == enemy_timer:
 #             enemy_group.add(Enemy(choice(['xxx','xx']))) /////siia tulevad vaenlase nimed vms
 #         enemy_group.draw(screen)
 #         enemy_group.update()
 
-    ussike.player_input(event)
 
     screen.blit(background_2,(0,0))
     bg_x_muut = bg_x_pos % background.get_rect().width
@@ -127,14 +163,15 @@ while running:
         screen.blit(background, (bg_x_muut, 461))
     bg_x_pos -= 0.3
     
-        
-    ussike.update()
+    if pygame.sprite.spritecollide(ussike.sprite,verelible_group, True):
+        score += 100
+        print(score)
+    
     ussike.draw(screen)
+    ussike.update()
+    verelible_group.draw(screen)
+    verelible_group.update()
 
-    #verelibled
-    for verelible in verelibled:
-        screen.blit(verelibled_pilt,(verelible[0],verelible[1]))
-
-    pygame.display.flip()
+    pygame.display.update()
 
 pygame.quit()

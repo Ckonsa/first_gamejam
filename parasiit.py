@@ -149,6 +149,8 @@ width = 1000
 height = 600
 screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption('PARASIIT')
+title_txt = pygame.font.Font('manaspace.regular.ttf',100)
+menu_txt = pygame.font.Font('manaspace.regular.ttf',35)
 txt = pygame.font.Font('manaspace.regular.ttf',25)
 
 clock = pygame.time.Clock()
@@ -194,9 +196,9 @@ while intro:
             intro = False
             close = True
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if 450 <= mouse[0] <= 550 and 140 <= mouse[1] <= 180:
+            if 350 <= mouse[0] <= 650 and 240 <= mouse[1] <= 320:
                 intro = False
-            if 450 <= mouse[0] <= 550 and 190 <= mouse[1] <= 230:
+            elif 350 <= mouse[0] <= 650 and 340 <= mouse[1] <= 420:
                 juhend = True
 
                 while juhend:
@@ -207,26 +209,26 @@ while intro:
                             juhend = False
 
                         if event.type == pygame.MOUSEBUTTONDOWN:
-                            if 280 <= mouse[0] <= 340 and 285 <= mouse[1] <= 315:
+                            if 425 <= mouse[0] <= 575 and 480 <= mouse[1] <= 530:
                                 juhend = False
 
-                    pygame.draw.rect(screen, (37, 88, 107), [150, 120, 300, 200])
+                    pygame.draw.rect(screen, (180,40,51), [250, 200, 500, 350])
 
                     mouse = pygame.mouse.get_pos()
 
-                    if 280 <= mouse[0] <= 340 and 285 <= mouse[1] <= 315:
-                        pygame.draw.rect(screen, (52, 119, 144), [280, 285, 60, 30])
+                    if 425 <= mouse[0] <= 575 and 480 <= mouse[1] <= 530:
+                        pygame.draw.rect(screen, (108,15,22), [425, 480, 150, 50])
                     else:
-                        pygame.draw.rect(screen, (37, 88, 107), [280, 285, 60, 30])
+                        pygame.draw.rect(screen, (180,40,51), [425, 480, 150, 50])
 
-                    sulgeTekst = txt.render('Sulge', True, (255, 255, 255))
-                    tekst = 'A  -  basic attack    S  -  spell attack       F  -  healing'
-                    pikk_tekst(screen, txt, 160, 300, 150, tekst)
-                    screen.blit(sulgeTekst, (290, 290))
+                    sulgeTekst = txt.render('Close', True, (255, 255, 255))
+                    tekst = 'Ole paeluss ja anna minna!'
+                    pikk_tekst(screen, txt, 280, 580, 240, tekst)
+                    screen.blit(sulgeTekst, (460, 495))
 
                     pygame.display.update()
 
-            if 450 <= mouse[0] <= 550 and 240 <= mouse[1] <= 280:
+            elif 350 <= mouse[0] <= 650 and 440 <= mouse[1] <= 520:
                 tegijad = True
 
                 while tegijad:
@@ -237,25 +239,24 @@ while intro:
                             close = True
 
                         if event.type == pygame.MOUSEBUTTONDOWN:
-                            if 280 <= mouse[0] <= 340 and 285 <= mouse[1] <= 315:
+                            if 425 <= mouse[0] <= 575 and 480 <= mouse[1] <= 530:
                                 tegijad = False
 
-                    pygame.draw.rect(screen, (37, 88, 107), [150, 120, 300, 200])
+                    pygame.draw.rect(screen, (180,40,51), [250, 200, 500, 350])
 
                     mouse = pygame.mouse.get_pos()
 
-                    if 280 <= mouse[0] <= 340 and 285 <= mouse[1] <= 315:
-                        pygame.draw.rect(screen, (52, 119, 144), [
-                                             280, 285, 60, 30])
+                    if 425 <= mouse[0] <= 575 and 480 <= mouse[1] <= 530:
+                        pygame.draw.rect(screen, (108,15,22), [425, 480, 150, 50])
                     else:
-                        pygame.draw.rect(screen, (37, 88, 107), [280, 285, 60, 30])
+                        pygame.draw.rect(screen, (180,40,51), [425, 480, 150, 50])
 
-                    sulgeTekst = txt.render('Sulge', True, (255, 255, 255))
+                    sulgeTekst = txt.render('Close', True, (255, 255, 255))
                     aasta = txt.render('2021', True, (255, 255, 255))
-                    tekst = 'Mängu on Teieni toonud              Erik Ivar Haav                    Charleen Konsa'
-                    pikk_tekst(screen, txt, 210, 400, 150, tekst)
-                    screen.blit(sulgeTekst, (290, 290))
-                    screen.blit(aasta, (290, 240))
+                    tekst = '          Authors:             Veronika   Kukk              Charleen   Konsa           Katariina   Kornet'
+                    pikk_tekst(screen, txt, 370, 720, 240, tekst)
+                    screen.blit(sulgeTekst, (460, 495))
+                    screen.blit(aasta, (470,450))
 
                     pygame.display.update()
 
@@ -264,28 +265,28 @@ while intro:
     mouse = pygame.mouse.get_pos()
 
     if 350 <= mouse[0] <= 650 and 240 <= mouse[1] <= 320:
-        pygame.draw.rect(screen, (233,76,129), [350, 240,300,80])
+        pygame.draw.rect(screen, (180,40,51), [350, 240,300,80])
     else:
         pygame.draw.rect(screen, (108,15,22), [350, 240,300,80])
 
     if 350 <= mouse[0] <= 650 and 340 <= mouse[1] <= 420:
-        pygame.draw.rect(screen, (233,76,129), [350, 340,300,80])
+        pygame.draw.rect(screen, (180,40,51), [350, 340,300,80])
     else:
         pygame.draw.rect(screen, (108,15,22), [350, 340,300,80])
 
     if 350 <= mouse[0] <= 650 and 440 <= mouse[1] <= 520:
-        pygame.draw.rect(screen, (233,76,129), [350, 440,300,80])
+        pygame.draw.rect(screen, (180,40,51), [350, 440,300,80])
     else:
         pygame.draw.rect(screen, (108,15,22), [350, 440,300,80])
 
-    pealkiri = txt.render('PARASIIT', True, (255,255,255))
-    startTekst = txt.render('Start', True, (255,255,255))
-    juhendTekst = txt.render('Juhend', True, (255,255,255))
-    creditsTekst = txt.render('Credits', True, (255,255,255))
-    screen.blit(pealkiri, (450, 100))
-    screen.blit(startTekst, (275, 150))
-    screen.blit(juhendTekst, (270, 200))
-    screen.blit(creditsTekst, (270, 250))
+    pealkiri = title_txt.render('PARASIIT', True, (255,255,255))
+    startTekst = menu_txt.render('Start', True, (255,255,255))
+    juhendTekst = menu_txt.render('How to play', True, (255,255,255))
+    creditsTekst = menu_txt.render('Credits', True, (255,255,255))
+    screen.blit(pealkiri, (240, 100))
+    screen.blit(startTekst, (450, 265))
+    screen.blit(juhendTekst, (375, 365))
+    screen.blit(creditsTekst, (425, 465))
 
     pygame.display.update()
 
@@ -326,7 +327,7 @@ while running:
     for i in range(lives):
         screen.blit(heart, (8 + i*50, 30))
 
-    screen.blit(txt.render(score_txt, True, (255, 255, 255)),(5,0))
+    screen.blit(txt.render(score_txt, True, (255, 255, 255)),(5,5))
 
     ussike.draw(screen)
     ussike.update()

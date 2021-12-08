@@ -149,7 +149,7 @@ width = 1000
 height = 600
 screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption('PARASIIT')
-txt = pygame.font.SysFont('leelawadeeui', 25, bold=True)
+txt = pygame.font.Font('manaspace.regular.ttf',25)
 
 clock = pygame.time.Clock()
 

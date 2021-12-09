@@ -154,7 +154,7 @@ screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption('PARASIIT')
 title_txt = pygame.font.Font('manaspace.regular.ttf', 100)
 menu_txt = pygame.font.Font('manaspace.regular.ttf', 35)
-small_txt = pygame.font.Font('manaspace.regular.ttf', 10)
+small_txt = pygame.font.Font('manaspace.regular.ttf', 12)
 txt = pygame.font.Font('manaspace.regular.ttf', 20)
 
 clock = pygame.time.Clock()
@@ -229,8 +229,8 @@ while intro:
                                          425, 480, 150, 50])
 
                     sulgeTekst = txt.render('Close', True, (255, 255, 255))
-                    tekst = 'Liigu yles ja alla nooltega. Kogu  vereliblesid ning valdi  porgandile  ja kyyslaugule  otsa roomamist,  muidu kaotad elu.'
-                    pikk_tekst(screen, txt, 280, 735, 240, tekst)
+                    tekst = 'Liigu  yles  ja  alla  nooltega. Kogu  vereliblesid  ning  valdi  porgandile  ja  kyyslaugule  otsa  roomamist,  muidu  kaotad  elu.'
+                    pikk_tekst(screen, txt, 280, 730, 240, tekst)
                     screen.blit(sulgeTekst, (460, 495))
 
                     pygame.display.update()
@@ -267,14 +267,14 @@ while intro:
                     VKtxt = txt.render('Veronika Kukk', True, (255, 255, 255))
                     CKtxt = txt.render('Charleen Konsa', True, (255, 255, 255))
                     KKtxt = txt.render('Katariina Kornet', True, (255, 255, 255))
-                    heli = small_txt.render('"And the Machines Came at Midnight" by Eric Matyas www.soundimage.org', True, (255, 255, 255))
+                    heli = small_txt.render('Music and sound effects by Eric Matyas www.soundimage.org', True, (255, 255, 255))
                     screen.blit(sulgeTekst, (460, 495))
                     screen.blit(tekst,(450,210))
                     screen.blit(VKtxt,(420,260))
                     screen.blit(CKtxt,(410,300))
                     screen.blit(KKtxt,(400,340))
                     screen.blit(aasta, (480, 390))
-                    screen.blit(heli, (260,450))
+                    screen.blit(heli, (268,450))
 
                     pygame.display.update()
 

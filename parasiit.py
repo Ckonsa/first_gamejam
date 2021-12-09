@@ -154,7 +154,8 @@ screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption('PARASIIT')
 title_txt = pygame.font.Font('manaspace.regular.ttf', 100)
 menu_txt = pygame.font.Font('manaspace.regular.ttf', 35)
-txt = pygame.font.Font('manaspace.regular.ttf', 25)
+small_txt = pygame.font.Font('manaspace.regular.ttf', 10)
+txt = pygame.font.Font('manaspace.regular.ttf', 20)
 
 clock = pygame.time.Clock()
 
@@ -266,12 +267,14 @@ while intro:
                     VKtxt = txt.render('Veronika Kukk', True, (255, 255, 255))
                     CKtxt = txt.render('Charleen Konsa', True, (255, 255, 255))
                     KKtxt = txt.render('Katariina Kornet', True, (255, 255, 255))
+                    heli = small_txt.render('"And the Machines Came at Midnight" by Eric Matyas www.soundimage.org', True, (255, 255, 255))
                     screen.blit(sulgeTekst, (460, 495))
-                    screen.blit(tekst,(425,210))
-                    screen.blit(VKtxt,(375,260))
-                    screen.blit(CKtxt,(370,310))
-                    screen.blit(KKtxt,(360,360))
-                    screen.blit(aasta, (470, 410))
+                    screen.blit(tekst,(450,210))
+                    screen.blit(VKtxt,(420,260))
+                    screen.blit(CKtxt,(410,300))
+                    screen.blit(KKtxt,(400,340))
+                    screen.blit(aasta, (480, 390))
+                    screen.blit(heli, (260,450))
 
                     pygame.display.update()
 
@@ -342,7 +345,7 @@ while running:
     score += start_time*0.000001
     score_txt = str(int(score))
 
-    while len(score_txt) != 11:
+    while len(score_txt) != 15:
         score_txt = '0' + score_txt
 
     screen.blit(txt.render(score_txt, True, (255, 255, 255)), (5, 5))
@@ -396,8 +399,8 @@ while running:
             uuesti_txt = txt.render('Vajuta uuesti proovimiseks A.', True, (255, 255, 255))
             screen.blit(sulgeTekst, (460, 495))
             screen.blit(surm_txt, (400, 210))
-            screen.blit(score_txt, (340, 280))
-            screen.blit(uuesti_txt, (257, 330))
+            screen.blit(score_txt, (380, 280))
+            screen.blit(uuesti_txt, (320, 330))
 
             pygame.display.update()
 
